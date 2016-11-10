@@ -15,6 +15,21 @@ var address = '0x5003b92Ad161d5e77F5609d3C44E6c988ac019C6';
 // Storeコントラクトを取得
 var storeData = web3.eth.contract(ABI).at(address);
 
+// 入力受付
+// 引数チェック
+if (process.argv.length < 3) {
+    console.log('引数エラー');
+    return;
+}
+
+// 引数の内容を受け取る
+var _name = process.argv[2];
+
+console.log('Param: ' + _name);
+
+// ストアデータ取得関数の実行
+var setStoreData = storeData.deleteStoreData(_name);
+
 // ストアデータ取得関数の実行
 var getStoreData = storeData.getStoreData();
 
@@ -25,3 +40,4 @@ event.watch(function (error, result) {
     if (!error)
         console.log(result);
 });
+

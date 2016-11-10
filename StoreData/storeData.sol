@@ -19,26 +19,33 @@ contract Store {
      * 店舗情報を設定
      * 
      */
-    function setStoreData(string name, string streetNo, string tel) {
+    function setStoreData(string name, string streetNo, string tel) returns (bool) {
         
         // 登録者を設定する
         storeData.push(StoreData(name, streetNo, tel, msg.sender));
 
-        // イベントを実行する
-        eventStoreData(name, streetNo, tel, msg.sender);
+        for (uint i = 0; i < storeData.length; i++) {
+            //イベントを実行する
+            eventStoreData(storeData[i].name, storeData[i].streetNo
+                , storeData[i].tel, storeData[i].owner);
+        }
+        // 実行が完了するとtrueを返す
+        return true;
     }
 
     /**
      * 店舗情報を取得
      * 
      */
-    function getStoreData() {
+    function getStoreData() returns (bool) {
 
-        for (uint i = 0; i < storeData.length; ++i) {
+        for (uint i = 0; i < storeData.length; i++) {
             //イベントを実行する
             eventStoreData(storeData[i].name, storeData[i].streetNo
                 , storeData[i].tel, storeData[i].owner);
         }
+        // 実行が完了するとtrueを返す
+        return true;
     }
 
     /**
@@ -46,7 +53,7 @@ contract Store {
      * 
      */
     function deleteStoreData(string name) {
-        for (uint i = 0; i < storeData.length; ++i) {
+        for (uint i = 0; i < storeData.length; i++) {
             
             if(stringsEqual(storeData[i].name, name)) {
                 delete storeData[i];
